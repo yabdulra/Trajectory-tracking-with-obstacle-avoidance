@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<robot>
+
+<!-- ===================links rviz colors========================= -->
+	<material name="Black">
+		<color rgba="${0/255} ${0/255} ${0/255} 1.0"/>
+	</material>
+
+	<material name="Ring">
+		<color rgba="${0/255} ${100/255} ${96/255} 1.0"/>
+	</material>
+
+	<material name="Chassis">
+		<color rgba="${162/255} ${188/255} ${176/255} 1.0"/>
+	</material>
+
+<!-- ===================links gazebo colors========================= -->
+  <gazebo reference="chassis">  
+  <visual>  
+    <material>  
+      <ambient>0.6353 0.7373 0.6902 1.0</ambient>  
+      <diffuse>0.6353 0.7373 0.6902 1.0</diffuse>  
+      <specular>0.6353 0.7373 0.6902 1.0</specular>  
+      <emissive>0.0 0.0 0.0 0.0</emissive>  
+    </material>  
+  </visual>  
+  </gazebo>
+
+  <gazebo reference="top_ring">  
+  <visual>  
+    <material>  
+      <ambient>0.0 0.3922 0.3765 1.0</ambient>  
+      <diffuse>0.0 0.3922 0.3765 1.0</diffuse>  
+      <specular>0.0 0.3922 0.3765 1.0</specular>  
+      <emissive>0.0 0.0 0.0 0.0</emissive>  
+    </material>  
+  </visual>  
+  </gazebo>
+
+  <gazebo reference="left_wheel">  
+  <visual>  
+    <material>  
+      <ambient>0.0 0.0 0.0 1.0</ambient>  
+      <diffuse>0.0 0.0 0.0 1.0</diffuse>  
+      <specular>0.0 0.0 0.0 1.0</specular>  
+      <emissive>0.0 0.0 0.0 0.0</emissive>  
+    </material>  
+  </visual>  
+  </gazebo>
+
+  <gazebo reference="right_wheel">  
+  <visual>  
+    <material>  
+      <ambient>0.0 0.0 0.0 1.0</ambient>  
+      <diffuse>0.0 0.0 0.0 1.0</diffuse>  
+      <specular>0.0 0.0 0.0 1.0</specular>  
+      <emissive>0.0 0.0 0.0 0.0</emissive>  
+    </material>  
+  </visual>  
+  </gazebo>
+
+    <gazebo reference="camera">  
+    <visual>  
+     <material>  
+      <ambient>0.0 0.0 0.0 1.0</ambient>  
+      <diffuse>0.0 0.0 0.0 1.0</diffuse>  
+      <specular>0.0 0.0 0.0 1.0</specular>  
+      <emissive>0.0 0.0 0.0 0.0</emissive>  
+     </material>  
+    </visual>  
+    </gazebo>
+
+</robot>
