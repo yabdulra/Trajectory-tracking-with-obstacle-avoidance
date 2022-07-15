@@ -31,7 +31,7 @@ class ChaseBall{
             int column, white_pixel = 255;
             bool white_ball_detected = false;
 
-            for (int i = 0; i < img.height * img.step; i++) {
+            for (int i = 0; i < img.height * img.step; i+3) {
                 if (img.data[i] == white_pixel && img.data[i+1] == white_pixel && img.data[i+2] == white_pixel) {
                     white_ball_detected = true;
                     column = (i / 3)%img.width;
