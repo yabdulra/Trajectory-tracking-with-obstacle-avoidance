@@ -23,7 +23,7 @@ This project form part of the Udacity's Robotics Software Engineer Nanodegree. I
     $ git clone https://github.com/yabdulra/Where-Am-I.git
     ```
 
-    Follow [this](http://wiki.ros.org/catkin/Tutorials/create_a_workspace) guide to create a catkin workspace if you dont have one.
+    Follow [this](http://wiki.ros.org/catkin/Tutorials/create_a_workspace) guide to create a catkin workspace if you do not have one.
 * Within the same src folder, clone the teleop package
     ```
     $ git clone https://github.com/ros-teleop/teleop_twist_keyboard
