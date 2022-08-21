@@ -1,0 +1,41 @@
+<launch>
+  <node ns="circular" name="plotter" type="plotter.py" pkg="trajectory_tracking" output="screen">
+    <remap from="/traj_topic" to="/circular" />
+  </node>
+  <node name="circular" type="circular" pkg="trajectory_tracking" output="screen">
+    <rosparam>
+      center_x: 0
+      center_y: 0
+      radius: 3
+      period: 100
+    </rosparam>
+  </node>
+
+  <node name="robot" type="tracking_controller" pkg="trajectory_tracking" output="screen">
+    <remap from="/traj_topic" to="/circular" />
+  </node>
+
+  <!-- node ns="linear" name="plotter" type="plotter.py" pkg="trajectory_tracking" output="screen">
+    <remap from="/traj_topic" to="/linear" />
+  </node>
+  <node name="linear" type="linear" pkg="trajectory_tracking" output="screen">
+    <rosparam>
+      x_start: 0
+      y_start: 0
+      gradient: 1
+      period: 60
+    </rosparam>
+  </node>
+  
+  <node ns="eight_shape" name="plotter" type="plotter.py" pkg="trajectory_tracking" output="screen">
+    <remap from="/traj_topic" to="/eight_shape" />
+  </node>
+  <node name="eight_shape" type="eight_shape" pkg="trajectory_tracking" output="screen">
+    <rosparam>
+      center_x: 0
+      center_y: 0
+      radius: 6
+      period: 60
+    </rosparam>
+  </node -->
+</launch>
