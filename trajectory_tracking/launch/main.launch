@@ -13,6 +13,9 @@
 
   <node name="robot" type="tracking_controller" pkg="trajectory_tracking" output="screen">
     <remap from="/traj_topic" to="/circular" />
+    <rosparam>
+      robot_radius: 0.089
+    </rosparam>
   </node>
 
   <!-- node ns="linear" name="plotter" type="plotter.py" pkg="trajectory_tracking" output="screen">
