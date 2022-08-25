@@ -7,6 +7,9 @@
 #include <cmath>
 #include <cstdlib>
 #include <ctime>
+#include <vector>
+#include <algorithm>
+using std::vector;
 
 class Trajectory{
     private:
@@ -40,7 +43,7 @@ class Robot{
             vel_pub = nh.advertise<geometry_msgs::Twist>("/cmd_vel", 10);
             odom = nh.subscribe("odom", 10, &Robot::odom_callback, this);
         }
-        
+
         void odom_callback(const nav_msgs::Odometry::ConstPtr &msg){
             // get robot's x and y position
             x_pos = msg->pose.pose.position.x;
@@ -69,6 +72,24 @@ class Robot{
             vel.angular.z = t.w_r + (ky * e_y * sin(e_theta) / e_theta) + kx * e_theta;
             vel_pub.publish(vel);
         }
+        // takes in a vector of obstacles and compute the distance of each obstacle from the robot
+        // returns a vector of an obstacle with the least distance to the robot
+        vector<double> closest_obstacle(vector<vector<double> > &obstacles){
+            vector<double> dist_to_robot(obstacles.size());
+            vector<double> obstacle;
+            for(auto i = 0; i != obstacles.size(); ++i ){
+                dist_to_robot[i] = sqrt(pow((obstacles[i][0] - x_pos), 2) + pow((obstacles[i][1] - y_pos), 2));
+            }
+
+            int index = std::min_element(dist_to_robot.begin(), dist_to_robot.end()) - dist_to_robot.begin();
+            obstacle.push_back(obstacles[index][0]);
+            obstacle.push_back(obstacles[index][1]);
+            obstacle.push_back(obstacles[index][2]);
+            obstacle.push_back(dist_to_robot[index]);
+            
+            return obstacle;   // {x_obst, y_obst, r_obst, distance to robot}
+        }
+
 };
 
 
@@ -77,8 +98,9 @@ int main(int argc, char** argv){
     Trajectory trajectory;
     Robot robot;
     ros::Rate loop_rate(10);
-
+    
     while(ros::ok()){
+        
         robot.tracking_controller(trajectory);
 
         ros::spinOnce();
