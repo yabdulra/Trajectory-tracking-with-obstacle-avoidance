@@ -90,6 +90,29 @@ class Robot{
             return obstacle;   // {x_obst, y_obst, r_obst, distance to robot}
         }
 
+        void avoidance_controller(vector<double> & obst){
+            geometry_msgs::Twist vel;
+            double k = 1.8;   //controller parameter
+            double Rc = obst[2] + r_radius + 0.2;  // radius of limit-cycle
+            // define robot position with respect to the limit-cycle
+            double xs = x_pos - obst[0];
+            double ys = y_pos - obst[1];
+            
+            double xsdot = -ys + xs * (pow(Rc, 2) - pow(xs, 2) - pow(ys, 2));
+            double ysdot = xs + ys * (pow(Rc, 2) - pow(xs, 2) - pow(ys, 2));
+            double thetadot = atan2(ysdot, xsdot);
+            double thetaerr = thetadot - theta;
+            thetaerr = atan2(sin(thetaerr), cos(thetaerr));
+            
+            double xsdotdot = -ysdot - 2 * xs * (xs * xsdot + ys * ysdot) + xsdot * (pow(Rc, 2) - pow(xs, 2) - pow(ys, 2));
+            double ysdotdot = xsdot - 2 * ys * (xs * xsdot + ys * ysdot) + ysdot * (pow(Rc, 2) - pow(xs, 2) - pow(ys, 2));
+            double thetadotdot = (xsdot * ysdotdot - ysdot * xsdotdot) / (pow(xsdot, 2) + pow(ysdot, 2));
+
+            vel.linear.x = 0.3;
+            vel.angular.z = thetadotdot + k * thetaerr;
+            vel_pub.publish(vel);
+        }
+
 };
 
 
