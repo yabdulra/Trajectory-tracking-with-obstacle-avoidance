@@ -36,12 +36,15 @@ class Robot{
         ros::NodeHandle nh;
         ros::Publisher vel_pub;
         ros::Subscriber odom;
-        double x_pos = 0.0, y_pos = 0.0, theta = 0.0;
+        double x_pos = 0.0, y_pos = 0.0, theta = 0.0, r_radius;
 
     public:
         Robot(){
             vel_pub = nh.advertise<geometry_msgs::Twist>("/cmd_vel", 10);
             odom = nh.subscribe("odom", 10, &Robot::odom_callback, this);
+            std::string node_name = ros::this_node::getName();
+            nh.getParam(node_name + "/robot_radius", r_radius);
+
         }
 
         void odom_callback(const nav_msgs::Odometry::ConstPtr &msg){
