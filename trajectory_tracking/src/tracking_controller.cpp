@@ -137,6 +137,19 @@ class Robot{
             this->escape_critetion();
         }
 };
+// take in path to obstacles' txt file and return a vector of obstacles
+// each obstacle is defined by its x and y coordinates and radius.
+vector<vector<double> > obstacles(std::string path){
+    double x, y, radius;
+    vector<vector<double> > obsts;
+    std::ifstream file(path);
+    while(file >> x >> y >> radius){
+        obsts.push_back({x, y, radius});
+    }
+    
+    return obsts;
+}
+
 
 int main(int argc, char** argv){
     ros::init(argc, argv, "robot");
