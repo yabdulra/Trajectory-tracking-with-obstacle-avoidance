@@ -153,13 +153,35 @@ vector<vector<double> > obstacles(std::string path){
 
 int main(int argc, char** argv){
     ros::init(argc, argv, "robot");
+    ros::NodeHandle private_node_handle("~");
+
     Trajectory trajectory;
     Robot robot;
     ros::Rate loop_rate(10);
     
+    std::string path = private_node_handle.param<std::string>("path", "default");
+
+    vector<vector<double> > obsts = obstacles(path);
+
+    vector<double> obst;
     while(ros::ok()){
+        obst = robot.closest_obstacle(obsts);
         
-        robot.tracking_controller(trajectory);
+        robot.R_i = obst[2] + robot.r_radius + 0.6;
+        if(obst[3] <= robot.R_i){
+            if (robot.avoidance_suceeded == false){
+                robot.avoidance_controller(obst);
+            }
+            else{
+                robot.tracking_controller(trajectory);
+            }    
+        }
+        else{
+            robot.tracking_controller(trajectory);
+            robot.avoidance_suceeded = false;
+            robot.sign_xs.clear();
+            robot.sign_ys.clear();
+        }
 
         ros::spinOnce();
         loop_rate.sleep();
