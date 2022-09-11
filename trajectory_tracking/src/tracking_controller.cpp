@@ -1,10 +1,12 @@
 #include <ros/ros.h>
+#include <ros/package.h>
 #include <tf/tf.h>
 #include "trajectory_tracking/Traj.h"
 #include <geometry_msgs/Twist.h>
 #include <nav_msgs/Odometry.h>
 
 #include <cmath>
+#include <fstream>
 #include <cstdlib>
 #include <ctime>
 #include <vector>
@@ -36,7 +38,7 @@ class Robot{
         ros::NodeHandle nh;
         ros::Publisher vel_pub;
         ros::Subscriber odom;
-        double x_pos = 0.0, y_pos = 0.0, theta = 0.0, r_radius;
+        double x_pos = 0.0, y_pos = 0.0, theta = 0.0, xs = 0.0, ys = 0.0;    
 
     public:
         Robot(){
@@ -44,9 +46,10 @@ class Robot{
             odom = nh.subscribe("odom", 10, &Robot::odom_callback, this);
             std::string node_name = ros::this_node::getName();
             nh.getParam(node_name + "/robot_radius", r_radius);
-
         }
-
+        vector<int> sign_xs, sign_ys;
+        double  r_radius, R_i;
+        bool avoidance_suceeded = false;
         void odom_callback(const nav_msgs::Odometry::ConstPtr &msg){
             // get robot's x and y position
             x_pos = msg->pose.pose.position.x;
@@ -93,13 +96,29 @@ class Robot{
             return obstacle;   // {x_obst, y_obst, r_obst, distance to robot}
         }
 
+        void escape_critetion(){
+            auto i = sign_xs.size(), j = sign_ys.size();
+            // checks if the vectors are not empty, track sign changes and set correct boolean for
+            // whether an obstacle if successfully avoided or not.
+            if(i > 0 && j > 0){
+                if((sign_xs[i-1] != sign_xs[0]) && (sign_ys[j-1] != sign_ys[0])){
+                    avoidance_suceeded = true;
+                }
+                else{
+                    avoidance_suceeded = false;
+                }
+            }
+            (std::signbit(xs) == false)? sign_xs.push_back(1) : sign_xs.push_back(-1);
+            (std::signbit(ys) == false)? sign_ys.push_back(1) : sign_ys.push_back(-1);
+        }
+
         void avoidance_controller(vector<double> & obst){
             geometry_msgs::Twist vel;
-            double k = 1.8;   //controller parameter
-            double Rc = obst[2] + r_radius + 0.2;  // radius of limit-cycle
+            double k = 1.8;   //controller parameter 1.8
+            double Rc = R_i - 0.2;  // radius of limit-cycle
             // define robot position with respect to the limit-cycle
-            double xs = x_pos - obst[0];
-            double ys = y_pos - obst[1];
+            xs = x_pos - obst[0];
+            ys = y_pos - obst[1];
             
             double xsdot = -ys + xs * (pow(Rc, 2) - pow(xs, 2) - pow(ys, 2));
             double ysdot = xs + ys * (pow(Rc, 2) - pow(xs, 2) - pow(ys, 2));
@@ -111,13 +130,13 @@ class Robot{
             double ysdotdot = xsdot - 2 * ys * (xs * xsdot + ys * ysdot) + ysdot * (pow(Rc, 2) - pow(xs, 2) - pow(ys, 2));
             double thetadotdot = (xsdot * ysdotdot - ysdot * xsdotdot) / (pow(xsdot, 2) + pow(ysdot, 2));
 
-            vel.linear.x = 0.3;
-            vel.angular.z = thetadotdot + k * thetaerr;
+            vel.linear.x = 0.14;
+            vel.angular.z = 1 * (thetadotdot + k * thetaerr);
             vel_pub.publish(vel);
+
+            this->escape_critetion();
         }
-
 };
-
 
 int main(int argc, char** argv){
     ros::init(argc, argv, "robot");
