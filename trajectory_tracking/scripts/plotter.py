@@ -57,11 +57,11 @@ def animate1(i):
        
     xd.append(float(traj.pose.x))
     yd.append(float(traj.pose.y))
-    ax1.plot(xd,yd, 'r',linestyle='solid',label="desired trajectory",lw=1)  
+    ax1.plot(xd,yd, 'r',linestyle='solid',label="reference trajectory",lw=1)  
 
     xrobot.append(float(robot_x))
     yrobot.append(float(robot_y))
-    ax1.plot(xrobot, yrobot, 'k', linestyle='dashdot', label='robot trajectory', lw=1)
+    ax1.plot(xrobot, yrobot, 'k', linestyle='dashdot', label="robot's trajectory", lw=1)
     
     for obst in obsts:
         ax1.add_artist( plt.Circle((obst[0], obst[1]), obst[2], color=colors[random.randint(0, 9)], alpha=0.9))
