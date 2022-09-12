@@ -38,7 +38,7 @@ class Robot{
         ros::NodeHandle nh;
         ros::Publisher vel_pub;
         ros::Subscriber odom;
-        double x_pos = 0.0, y_pos = 0.0, theta = 0.0, xs = 0.0, ys = 0.0;    
+        double x_pos = 0.0, y_pos = 0.0, theta = 0.0, r_radius, xs = 0.0, ys = 0.0;    
 
     public:
         Robot(){
@@ -48,8 +48,13 @@ class Robot{
             nh.getParam(node_name + "/robot_radius", r_radius);
         }
         vector<int> sign_xs, sign_ys;
-        double  r_radius, R_i;
+        double R_i;
         bool avoidance_suceeded = false;
+
+        double get_robot_radius(){
+            return r_radius;
+        }
+
         void odom_callback(const nav_msgs::Odometry::ConstPtr &msg){
             // get robot's x and y position
             x_pos = msg->pose.pose.position.x;
@@ -167,7 +172,7 @@ int main(int argc, char** argv){
     while(ros::ok()){
         obst = robot.closest_obstacle(obsts);
         
-        robot.R_i = obst[2] + robot.r_radius + 0.6;
+        robot.R_i = obst[2] + robot.get_robot_radius() + 0.6;
         if(obst[3] <= robot.R_i){
             if (robot.avoidance_suceeded == false){
                 robot.avoidance_controller(obst);
