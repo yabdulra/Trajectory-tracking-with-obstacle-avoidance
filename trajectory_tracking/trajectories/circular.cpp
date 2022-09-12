@@ -60,11 +60,11 @@ class CircularTrajectory{
             std::ofstream file;
             file.open(path);
             for(auto i = 0; i != angles.size(); ++i){
-                radius = ((0.26) * rand()) / RAND_MAX + radius - 0.13;
+                radius = ((0.26) * rand()) / RAND_MAX + radius - 0.15;
 
                 double x = center_x + radius * cos(angles[i]*M_PI/180);
                 double y = center_y + radius * sin(angles[i]*M_PI/180);
-                double r = ((0.22 - 0.15) * rand()) / RAND_MAX + 0.15;
+                double r = ((0.22 - 0.12) * rand()) / RAND_MAX + 0.12;
 
                 file << x << " " << y << " " << r << "\n";
             }
