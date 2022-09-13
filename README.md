@@ -83,11 +83,11 @@ Below are sample views of a robot tracking a circular trajectory of radius 3m ce
 <table style="width:75%">
   <tr> 
     <th><p>
-           ![2](https://user-images.githubusercontent.com/61895971/189815304-b5619fe8-102d-461f-9c6f-90f0ea4cd694.png)
+           https://user-images.githubusercontent.com/61895971/189815304-b5619fe8-102d-461f-9c6f-90f0ea4cd694.png
       </p>
     </th>
     <th><p>
-           ![6](https://user-images.githubusercontent.com/61895971/189815269-f34dffce-b651-4786-b64f-1c5d022ba8d1.png)
+           https://user-images.githubusercontent.com/61895971/189815269-f34dffce-b651-4786-b64f-1c5d022ba8d1.png
         </p>
     </th>
   </tr>
