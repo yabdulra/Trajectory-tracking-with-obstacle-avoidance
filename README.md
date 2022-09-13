@@ -79,16 +79,6 @@ A default launch file for the tracking controller, reference trajectory, and the
 
 ## 6. Visualization
 Once the nodes are launched, you can visualize the simulated obstacles on the plotter as well as the robot's and reference trajectories. You can see the robot deviating from the referecne trajectory to avoid any obstacle that can obstruct its motion, and then switching back to tracking the trajectory when the obstacle is completely avoided.  
-Below are sample views of a robot tracking a circular trajectory of radius 3m centered at the origin. The plots depict the robot avoiding some randomly generated disturbing obstacles.
-<table style="width:75%">
-  <tr> 
-    <th><p>
-           https://user-images.githubusercontent.com/61895971/189815304-b5619fe8-102d-461f-9c6f-90f0ea4cd694.png
-      </p>
-    </th>
-    <th><p>
-           https://user-images.githubusercontent.com/61895971/189815269-f34dffce-b651-4786-b64f-1c5d022ba8d1.png
-        </p>
-    </th>
-  </tr>
-</table>
+Below are sample views of a robot tracking a circular trajectory of radius 3m centered at the origin. The plots depict the robot avoiding some randomly generated disturbing obstacles.  
+![2](https://user-images.githubusercontent.com/61895971/189817321-9b8f6c19-1881-4799-a94b-edbdc2ef8585.png)
+![6](https://user-images.githubusercontent.com/61895971/189817360-e0195ace-19bd-4e0b-be98-bf6d855599e1.png)
